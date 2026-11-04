@@ -1,0 +1,14 @@
+# Сборочные каталоги (build-debug, build-release и т.д.)
+build-*/
+build/
+cmake-build-*/
+
+# Скомпилированные шейдеры
+shaders/*.spv
+
+# Настройки окна ImGui (создаются при запуске программы)
+imgui.ini
+
+# Файлы IDE и редакторов
+.vscode/
+.idea/

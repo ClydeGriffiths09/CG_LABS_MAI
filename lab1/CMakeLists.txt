@@ -19,7 +19,7 @@ elseif(WIN32)
 	endif()
 	target_compile_definitions(${PROJECT_NAME} PRIVATE -D_USE_MATH_DEFINES)
 else()
-	message(FATAL_ERROR "${CMAKE_SYSTEM_NAME} is not supported")
+	#message(FATAL_ERROR "${CMAKE_SYSTEM_NAME} is not supported")
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD_REQUIRED TRUE CXX_STANDARD 20)
@@ -33,7 +33,7 @@ FetchContent_Declare(
 FetchContent_Declare(
 	vk-bootstrap
 	GIT_REPOSITORY https://github.com/charles-lunarg/vk-bootstrap.git
-	GIT_TAG v1.4.321
+	GIT_TAG        v0.7
 )
 
 FetchContent_Declare(
@@ -81,7 +81,10 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 # Compile shaders
-find_program(GLSLC_FOUND glslc)
+find_program(GLSLC_FOUND glslc
+	HINTS "$ENV{HOME}/1.4.321.1/x86_64/bin"
+	      "$ENV{VULKAN_SDK}/bin"
+)
 if(GLSLC_FOUND)
 	set(_SHADER_BINARIES)
 
@@ -92,7 +95,7 @@ if(GLSLC_FOUND)
 
 		add_custom_command(
 			OUTPUT ${SHADER_BINARY_PATH}
-			COMMAND glslc ${SHADER_SOURCE} -o ${SHADER_BINARY_PATH}
+			COMMAND ${GLSLC_FOUND} ${SHADER_SOURCE} -o ${SHADER_BINARY_PATH}
 			DEPENDS ${SHADER_SOURCE}
 			COMMENT "Compiling ${SHADER_FILE} shader"
 		)
@@ -103,8 +106,8 @@ if(GLSLC_FOUND)
 	# To compile shader file, use compile_shader function with a file name
 	# of a shader inside shaders directory. See example below:
 
-	# compile_shader(example.vert)
-	# compile_shader(example.frag)
+	compile_shader(parallelepiped.vert)
+	compile_shader(parallelepiped.frag)
 
 	add_custom_target(shaders DEPENDS ${_SHADER_BINARIES})
 	add_dependencies(${PROJECT_NAME} shaders)
