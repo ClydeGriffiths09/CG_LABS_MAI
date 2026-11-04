@@ -64,7 +64,7 @@ VkFormat selectDepthFormat(VkPhysicalDevice physical_device) {
         VK_FORMAT_D32_SFLOAT_S8_UINT,
         VK_FORMAT_D32_SFLOAT,
         VK_FORMAT_D16_UNORM_S8_UINT,
-        VK_FORMAT_D16_UNORM,  // <-- Добавлен для AMD
+        VK_FORMAT_D16_UNORM,
     };
 
     for (VkFormat format : candidates) {
@@ -793,10 +793,8 @@ void submitAndPresent() {
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || vk_swapchain_resize_require) {
 		rebuildSwapchain(vk_swapchain_resize_width, vk_swapchain_resize_height);
 	} else if (result == VK_SUBOPTIMAL_KHR) {
-		// Swapchain работает, но драйвер считает, что его можно оптимизировать.
-		// Это НЕ ошибка, пересоздавать не обязательно (или можно вызвать rebuildSwapchain).
+
 	} else if (result != VK_SUCCESS) {
-		// Вот здесь настоящая ошибка
 		std::cerr << "Failed to present Vulkan swapchain image\n";
 	}
 }

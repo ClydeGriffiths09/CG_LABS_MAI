@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 include(FetchContent)
 
-# Жестко задаем путь к вашему Vulkan SDK
 set(VULKAN_SDK "/home/clydegriffiths/1.4.321.1/x86_64")
 set(CMAKE_PREFIX_PATH "${VULKAN_SDK}" ${CMAKE_PREFIX_PATH})
 list(APPEND CMAKE_PROGRAM_PATH "${VULKAN_SDK}/bin")
@@ -87,7 +86,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${imgui_SOURCE_DIR}/imgui_demo.cpp
 )
 
-# Поиск glslc с подсказкой пути
 find_program(GLSLC_FOUND glslc
     HINTS "${VULKAN_SDK}/bin"
           "$ENV{VULKAN_SDK}/bin"

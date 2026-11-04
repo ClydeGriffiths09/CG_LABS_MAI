@@ -2,13 +2,12 @@
 
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
-layout(location = 2) in vec2 inTexCoord; // UV координаты
+layout(location = 2) in vec2 inTexCoord;
 
 layout(location = 0) out vec3 fragNormal;
 layout(location = 1) out vec2 fragTexCoord;
 layout(location = 2) out vec3 fragWorldPos;
 
-// Глобальный UBO (Камера, Свет)
 layout(binding = 0) uniform GlobalUBO {
     mat4 view;
     mat4 proj;
@@ -24,7 +23,6 @@ layout(binding = 0) uniform GlobalUBO {
     float padding3;
 } global;
 
-// Динамический UBO (Модель)
 layout(binding = 1) uniform ModelUBO {
     mat4 model;
     vec4 color;

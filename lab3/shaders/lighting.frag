@@ -28,11 +28,9 @@ layout(binding = 1) uniform ModelUBO {
     float padding[3];
 } object;
 
-// Текстура
 layout(binding = 2) uniform sampler2D albedoTexture;
 
 void main() {
-    // Если рисуем сам источник света - просто отдаем его цвет
     if (object.isLightSource == 1) {
         outColor = object.color;
         return;
@@ -42,7 +40,6 @@ void main() {
     vec3 lightDirection = normalize(-global.lightDir);
     vec3 viewDir = normalize(global.cameraPos - fragWorldPos);
 
-    // Сэмплируем текстуру и умножаем на цвет-оттенок из UI
     vec4 texColor = texture(albedoTexture, fragTexCoord);
     vec3 baseColor = texColor.rgb * object.color.rgb;
 

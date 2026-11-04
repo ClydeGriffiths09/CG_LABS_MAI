@@ -15,14 +15,12 @@ void shutdown();
 void update(double time);
 void render(const graphics::internal::FrameData& fd);
 
-// Теперь у вершины есть текстурные координаты вместо цвета
 struct Vertex {
     glm::vec3 pos;
     glm::vec3 normal;
     glm::vec2 texCoord;
 };
 
-// Глобальные данные (камера, свет) - обновляются раз в кадр
 struct alignas(16) GlobalUniformBufferObject {
     glm::mat4 view;
     glm::mat4 proj;
@@ -38,15 +36,13 @@ struct alignas(16) GlobalUniformBufferObject {
     float padding3;
 };
 
-// Данные конкретной модели (матрица, цвет) - лежат в динамическом UBO
 struct alignas(16) ModelUniformBufferObject {
     glm::mat4 model;
     glm::vec4 color;
     int isLightSource;
-    float padding[3]; // Для выравнивания до 16 байт
+    float padding[3];
 };
 
-// Внешние переменные
 extern VkPipeline pipeline;
 extern VkPipelineLayout pipelineLayout;
 extern VkDescriptorSetLayout descriptorSetLayout;

@@ -6,7 +6,6 @@
 #include <cstring>
 #include <algorithm>
 
-// Подключаем stb_image для загрузки картинок
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -74,37 +73,31 @@ void generateParallelepipedWithNormals() {
     glm::vec2 uv01(0.0f, 1.0f);
 
     vertices = {
-        // Front face (z = 1)
         {{-1.0f, -1.0f,  1.0f}, {0.0f, 0.0f, 1.0f}, uv00},
         {{ 1.0f, -1.0f,  1.0f}, {0.0f, 0.0f, 1.0f}, uv10},
         {{ 1.0f,  1.0f,  1.0f}, {0.0f, 0.0f, 1.0f}, uv11},
         {{-1.0f,  1.0f,  1.0f}, {0.0f, 0.0f, 1.0f}, uv01},
         
-        // Back face (z = -1)
         {{ 1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, uv10},
         {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, uv00},
         {{-1.0f,  1.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, uv01},
         {{ 1.0f,  1.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, uv11},
         
-        // Top face (y = 1)
         {{-1.0f,  1.0f,  1.0f}, {0.0f, 1.0f, 0.0f}, uv01},
         {{ 1.0f,  1.0f,  1.0f}, {0.0f, 1.0f, 0.0f}, uv11},
         {{ 1.0f,  1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, uv10},
         {{-1.0f,  1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, uv00},
         
-        // Bottom face (y = -1)
         {{-1.0f, -1.0f, -1.0f}, {0.0f, -1.0f, 0.0f}, uv01},
         {{ 1.0f, -1.0f, -1.0f}, {0.0f, -1.0f, 0.0f}, uv11},
         {{ 1.0f, -1.0f,  1.0f}, {0.0f, -1.0f, 0.0f}, uv10},
         {{-1.0f, -1.0f,  1.0f}, {0.0f, -1.0f, 0.0f}, uv00},
         
-        // Right face (x = 1)
         {{ 1.0f, -1.0f,  1.0f}, {1.0f, 0.0f, 0.0f}, uv10},
         {{ 1.0f,  1.0f,  1.0f}, {1.0f, 0.0f, 0.0f}, uv11},
         {{ 1.0f,  1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, uv01},
         {{ 1.0f, -1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, uv00},
         
-        // Left face (x = -1)
         {{-1.0f, -1.0f, -1.0f}, {-1.0f, 0.0f, 0.0f}, uv00},
         {{-1.0f,  1.0f, -1.0f}, {-1.0f, 0.0f, 0.0f}, uv01},
         {{-1.0f,  1.0f,  1.0f}, {-1.0f, 0.0f, 0.0f}, uv11},
@@ -139,7 +132,6 @@ void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
 void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
     auto& ctx = graphics::internal::context;
     
-    // Создаем временный пул команд
     VkCommandPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     poolInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
@@ -182,7 +174,6 @@ void createTexture() {
     auto& ctx = graphics::internal::context;
     int texWidth, texHeight, texChannels;
     
-    // ИСПРАВЛЕНО: stbi_uc вместо stbi_uchar
     stbi_uc* pixels = stbi_load("shaders/TeresaLisbon.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     
     if (!pixels) {
@@ -220,7 +211,6 @@ void createTexture() {
     allocInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
     vmaCreateImage(ctx.allocator, &imageInfo, &allocInfo, &textureImage, &textureImageAlloc, nullptr);
 
-    // Создаем временный пул команд для копирования текстуры
     VkCommandPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     poolInfo.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;

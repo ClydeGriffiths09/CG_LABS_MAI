@@ -86,7 +86,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${imgui_SOURCE_DIR}/imgui_demo.cpp
 )
 
-# Поиск glslc с подсказкой пути
 find_program(GLSLC_FOUND glslc
     HINTS "${VULKAN_SDK}/bin"
           "$ENV{VULKAN_SDK}/bin"
@@ -110,7 +109,6 @@ if(GLSLC_FOUND)
         list(APPEND _SHADER_BINARIES ${SHADER_BINARY_PATH})
     endmacro()
 
-    # Компилируем шейдеры для 3-й лабы
     compile_shader(lighting.vert)
     compile_shader(lighting.frag)
 
